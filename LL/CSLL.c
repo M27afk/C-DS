@@ -1,0 +1,159 @@
+#include <stdio.h>
+#include <stdlib.h>
+int count = 0;
+typedef struct node
+{
+    int data;
+    struct node *next;
+} * NODE;
+NODE create()
+{
+    NODE s;
+    if ((s = (NODE)malloc(sizeof(struct node))) == NULL)
+    {
+        printf("\n Memory error");
+    }
+    s->next = s;
+    return s;
+}
+NODE insert_beg(NODE last, int item)
+{
+    NODE newnode = create();
+    newnode->data = item;
+    if (last == NULL)
+    {
+        return newnode;
+    }
+    newnode->next = last->next;
+    last->next = newnode;
+    return last;
+}
+
+NODE insert_end(NODE last, int item)
+{
+    NODE newnode = create();
+    newnode->data = item;
+    if (last == NULL)
+    {
+        return newnode;
+    }
+    newnode->next = last->next;
+    last->next = newnode;
+    return newnode;
+}
+
+NODE del_beg(NODE last)
+{
+    if (last == NULL)
+    {
+        printf("\nEmpty list!");
+        return last;
+    }
+    if (last->next == last)
+    {
+        last = NULL;
+        return last;
+    }
+    NODE temp = last->next;
+    last->next = last->next->next;
+    free(temp);
+    return last;
+}
+NODE del_end(NODE last)
+{
+    if (last == NULL)
+    {
+        printf("\nEmpty list!");
+        return last;
+    }
+    if (last->next == last)
+    {
+        last = NULL;
+        return last;
+    }
+    NODE temp = last;
+    while (temp->next != last)
+    {
+        temp = temp->next;
+    }
+    temp->next = last->next;
+    free(last);
+    return temp;
+}
+NODE insert_pos(NODE last, int pos, int key)
+{
+    NODE newnode = create(), prev = NULL, curr = last;
+    newnode->data = key;
+    int i = 0;
+    while (i <= pos)
+    {
+        prev = curr;
+        curr = curr->next;
+        i++;
+    }
+    newnode->next = curr;
+    prev->next = newnode;
+    count++;
+    return last;
+}
+int display(NODE last)
+{
+    printf("\n");
+    if (last == NULL)
+    {
+        printf("\nEmpty list!");
+        return 0;
+    }
+    NODE temp = last->next;
+    while (temp != last)
+    {
+
+        printf("<%d>", temp->data);
+        temp = temp->next;
+    }
+    printf("<%d>\n", last->data);
+    return 0;
+}
+
+int main()
+{
+    int data, n;
+    NODE last = NULL;
+    while (1)
+    {
+
+        printf("\n Enter the choice \n1.Insert at the beginning\n 2. Insert at the end\n");
+        scanf("%d", &n);
+        switch (n)
+        {
+        /* case 0:
+            display(last);
+            break; */
+        case 1:
+            printf("\nEnter the element to be inserted: ");
+            scanf("%d", &data);
+            last = insert_beg(last, data);
+            break;
+        case 2:
+            printf("\nEnter the element to be inserted: ");
+            scanf("%d", &data);
+            last = insert_end(last, data);
+            break;
+        case 3:
+            last = del_beg(last);
+            break;
+        case 4:
+            last = del_end(last);
+            break;
+        case 5:
+            printf("insert pos and ele");
+            scanf("%d%d", &n, &data);
+            last = insert_pos(last, n, data);
+            break;
+
+        default:
+            exit(0);
+        }
+        display(last);
+    }
+}
