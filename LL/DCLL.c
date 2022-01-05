@@ -63,7 +63,7 @@ NODE insert_rear(NODE head, int item)
 }
 NODE delete_front(NODE head)
 {
-    if (head->rlink == head)
+    if (head->data == 0)
     {
         printf("list is empty\n");
         return head;
@@ -139,30 +139,26 @@ NODE delete_pos(NODE head, int pos)
     head->data--;
     return head;
 }
-NODE reverse(NODE head)
+void reverse(NODE header)
 {
-    NODE temp, cur, p, t;
-    t = head->rlink;
-    cur = NULL;
-    while (temp != head)
+    NODE temp, cur, t;
+    if (header->rlink == header)
+    {
+        printf("\nEmpty list!......");
+    }
+    t = header->rlink;
+    cur = header;
+
+    while (t != header)
     {
         temp = t;
         t = t->rlink;
         temp->rlink = cur;
-        if (temp->rlink == NULL)
-        {
-            p = temp;
-            p->llink = temp;
-        }
-        head->rlink = temp;
-        temp->llink = head;
-        cur = temp;
         cur->llink = temp;
-        temp = t;
+        header->rlink = temp;
+        temp->llink = header;
+        cur = temp;
     }
-    head->llink = p;
-    p->rlink = head;
-    return head;
 }
 NODE update(NODE head, int key, int item)
 {
@@ -292,7 +288,7 @@ NODE copy(NODE head)
     head->llink = prev;
     return head;
 }
-void main()
+int main()
 {
     NODE head;
     head = create();
@@ -338,7 +334,7 @@ void main()
             break;
         case 8:
             printf("reverse list\n");
-            head = reverse(head);
+            reverse(head);
             break;
         case 9:
             printf("enter the key to be updated\n");
@@ -365,5 +361,6 @@ void main()
         default:
             exit(0);
         }
+        display(head);
     }
 }
