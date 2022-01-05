@@ -96,6 +96,63 @@ NODE insert_pos(NODE last, int pos, int key)
     count++;
     return last;
 }
+NODE reverse(NODE last){
+	NODE cur,temp,t=NULL,first=last->link;
+	cur=last;
+	temp=last->link;
+	while(t!=first){
+		t=temp->link;
+		temp->link=cur;
+		cur=temp;
+		temp=t;
+	}
+	return first;
+}
+NODE copy(NODE last){
+	NODE temp,cur,newNode,second=NULL;
+	temp=last->link;
+	if(last==NULL){
+		printf("Empty list!......");
+	}
+	do{
+		newNode=create();
+		newNode->data=temp->data;
+		if(second==NULL){
+			second=newNode;
+		}
+		else{
+			cur->link=newNode;
+		}
+		cur=newNode;
+		temp=temp->link;
+	}while(temp!=last->link);
+	newNode->link=second;
+	return newNode;
+}
+NODE search(NODE last,int val){
+    NODE temp;
+    if(last==NULL){
+        printf("Empty list!....");
+        return last;
+    }
+    temp=last->link;
+    int i=0;  
+    if(temp->data==val){
+        printf("The key found at postion 1");
+        return last;
+    }
+    do{
+        i++;
+        if(temp->data==val){
+            printf("The key found at postion %d",i);
+            return last;
+        }
+        temp=temp->link;
+        
+    }while(temp!=last->link);
+    printf("Key not found!....");
+    return last;
+}
 int display(NODE last)
 {
     printf("\n");
